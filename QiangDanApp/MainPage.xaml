@@ -1,0 +1,57 @@
+﻿<Page x:Class="QiangDanApp.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:QiangDanApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <GroupBox Header="你的登录信息" Grid.Column="0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="UserInfo" TextWrapping = "Wrap"/>
+                </ScrollViewer>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="未领取任务" Grid.Column="0">
+                <DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="任务id" Binding="{Binding taskid,Mode=OneWay}" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="任务编号" Binding="{Binding missionCode,Mode=OneWay}" Width="2*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="商品价格" Binding="{Binding price,Mode=OneWay}" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="服务佣金" Binding="{Binding userPay,Mode=OneWay}" Width="*"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
+            <GroupBox Header="已领取任务" Grid.Column="1">
+                <DataGrid x:Name="HasTaskTable" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="任务id" Binding="{Binding taskid,Mode=OneWay}" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="任务编号" Binding="{Binding missionCode,Mode=OneWay}" Width="2*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="商品价格" Binding="{Binding price,Mode=OneWay}" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="服务佣金" Binding="{Binding userPay,Mode=OneWay}" Width="*"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
+        </Grid>
+
+    </Grid>
+    
+</Page>
