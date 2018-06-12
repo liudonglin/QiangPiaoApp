@@ -3,10 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QiangDanApp"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        xmlns:l="clr-namespace:QiangDanApp"
+        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        mc:Ignorable="d" Icon="Resources\App_nomal.ico"
+        Title="抢单程序" Height="600" Width="800">
     <Grid>
         <Frame Name="MainFrame" NavigationUIVisibility="Hidden"></Frame>
+
+        
     </Grid>
 </Window>
