@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -32,7 +33,14 @@ namespace QiangDanApp
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             SetUserInfoBox(HttpUtility.CurrentUser);
+
+            QueryWaitHasTask();
             QueryHasTask();
+
+            Task.Factory.StartNew(() =>
+            {
+
+            });
         }
 
         private void SetUserInfoBox(UserInfo user)
@@ -75,6 +83,17 @@ namespace QiangDanApp
             }
         }
 
+        private void QueryWaitHasTask()
+        {
+            //查询已结任务
+            var queryUrl = "http://yc.xmaylt.cc/app/task/listpost";
+            var postData = "{\"pageNo\":0,\"pageSize\":0,\"order\":{\"taskid\":1},\"appoint\":0}";
+
+            var json = HttpUtility.HttpAjaxPost(queryUrl, postData);
+
+            TaskResult taskResult = JsonConvert.DeserializeObject<TaskResult>(json);
+            
+        }
 
     }
 }

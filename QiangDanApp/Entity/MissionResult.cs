@@ -14,6 +14,8 @@ namespace QiangDanApp
 
         public int code;
 
+        public string message;
+
         public List<Missionentity> missionList;
     }
 
