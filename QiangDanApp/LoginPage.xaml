@@ -20,7 +20,7 @@
                     <TextBlock Width="120" Height="20" Margin="134,81,454,220" Text="账号"/>
                     <TextBox Width="200" Height="20" Margin="299,80,289,221" Name="loginName_Txt"/>
                     <TextBlock Width="120" Height="20" Margin="174,168,494,133" Text="密码"/>
-                    <TextBox Width="200" Height="20" Margin="299,168,289,133" Name="passwordTxt"/>
+                    <PasswordBox Width="200" Height="20" Margin="299,168,289,133" Name="passwordTxt"/>
 
                     <Button Width="80" Height="20" Margin="248,245,340,56" Content="登录" Click="Button_Click"/>
                 </Grid>

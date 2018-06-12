@@ -19,15 +19,21 @@ namespace QiangDanApp
     /// </summary>
     public partial class LoginPage : Page
     {
-        public LoginPage()
+        private MainWindow _window;
+
+        public LoginPage(MainWindow window)
         {
             InitializeComponent();
+            this._window = window;
+
+            this.loginName_Txt.Text = Properties.Settings.Default.LoginName;
+            this.passwordTxt.Password = Properties.Settings.Default.Password;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var loginnane = this.loginName_Txt.Text.Trim();
-            var passwor = this.passwordTxt.Text.Trim();
+            var passwor = this.passwordTxt.Password.Trim();
 
             if (string.IsNullOrWhiteSpace(loginnane))
             {
@@ -43,7 +49,14 @@ namespace QiangDanApp
             HttpUtility.LoginName = loginnane;
             HttpUtility.Password = passwor;
 
-            HttpUtility.DoLogin();
+            if (HttpUtility.DoLogin())
+            {
+                this._window.GoToMainPage();
+            }
+            else
+            {
+                MessageBox.Show("登陆失败，请检查账号和密码");
+            }
         }
     }
 }

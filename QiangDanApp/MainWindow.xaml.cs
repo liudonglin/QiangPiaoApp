@@ -23,15 +23,39 @@ namespace QiangDanApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private LoginPage _LoginPage;
+        private MainPage _MainPage;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _LoginPage = new LoginPage(this);
+            _MainPage = new MainPage(this);
+
             this.Loaded += MainWindow_Loaded;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            this.MainFrame.Navigate(new Uri("LoginPage.xaml", UriKind.Relative));
+            if (string.IsNullOrWhiteSpace(HttpUtility.PHPSESSID))
+            {
+                GoToLoginPage();
+            }
+            else
+            {
+                GoToMainPage();
+            }
+        }
+
+        public void GoToLoginPage()
+        {
+            this.MainFrame.Content = this._LoginPage;
+        }
+
+        public void GoToMainPage()
+        {
+            this.MainFrame.Content = this._MainPage;
         }
     }
 }

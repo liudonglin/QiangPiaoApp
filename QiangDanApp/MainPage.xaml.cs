@@ -20,15 +20,33 @@ namespace QiangDanApp
     /// </summary>
     public partial class MainPage : Page
     {
-        public MainPage()
+        private MainWindow _window;
+
+        public MainPage(MainWindow window)
         {
             InitializeComponent();
+            this._window = window;
             this.Loaded += MainPage_Loaded;
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            SetUserInfoBox(HttpUtility.CurrentUser);
             QueryHasTask();
+        }
+
+        private void SetUserInfoBox(UserInfo user)
+        {
+            if (user == null) return;
+            this.taobao_txt.Text = user.taobao;
+            this.mobile_txt.Text = user.mobile;
+            this.name_txt.Text = user.name;
+            this.weChat_txt.Text = user.weChat;
+
+            this.userid_txt.Text = user.userid;
+            this.freeMoney_txt.Text = (user.freeMoney/100).ToString();
+            this.stockMoney_txt.Text = (user.stockMoney/100).ToString();
+            this.lastReceive_txt.Text = user.lastReceive;
         }
 
         private void QueryHasTask()
@@ -53,7 +71,7 @@ namespace QiangDanApp
 
             if (missionResult.code != 1)
             {
-                //doLogin();
+                HttpUtility.DoLogin();
             }
         }
 

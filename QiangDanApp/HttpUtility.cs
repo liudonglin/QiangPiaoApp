@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace QiangDanApp
         public static string LoginName { get; set; }
 
         public static string Password { get; set; }
+
+        public static string PHPSESSID { get; set; }
+
+        public static UserInfo CurrentUser { get; set; }
 
         public static string HttpAjaxPost(string Url, string postData)
         {
@@ -33,11 +38,12 @@ namespace QiangDanApp
             myStreamWriter.Close();
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            var cookieStr = response.Headers["Set-Cookie"];
-            if (!string.IsNullOrWhiteSpace(cookieStr))
-            {
-                CookiesParse(cookieStr);
-            }
+
+            //var cookieStr = response.Headers["Set-Cookie"];
+            //if (!string.IsNullOrWhiteSpace(cookieStr))
+            //{
+            //    CookiesParse(cookieStr);
+            //}
 
             Stream myResponseStream = response.GetResponseStream();
             StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.Default);
@@ -48,28 +54,51 @@ namespace QiangDanApp
             return retString;
         }
 
-        public static void CookiesParse(string cookieStr)
-        {
-            var cookieValue = GetCookieValue(cookieStr);
-            var cookieName = "PHPSESSID";
+        //public static void CookiesParse(string cookieStr)
+        //{
+        //    var cookieValue = GetCookieValue(cookieStr);
+        //    var cookieName = "PHPSESSID";
 
-            loginCookie = new CookieContainer();
-            loginCookie.Add(new Cookie(cookieName, cookieValue, "/", "yc.xmaylt.cc"));
-        }
+        //    loginCookie = new CookieContainer();
+        //    loginCookie.Add(new Cookie(cookieName, cookieValue, "/", "yc.xmaylt.cc"));
+        //}
 
-        public static string GetCookieValue(string cookie)
-        {
-            Regex regex = new Regex("=.*?;");
-            Match value = regex.Match(cookie);
-            string cookieValue = value.Groups[0].Value;
-            return cookieValue.Substring(1, cookieValue.Length - 2);
-        }
+        //public static string GetCookieValue(string cookie)
+        //{
+        //    Regex regex = new Regex("=.*?;");
+        //    Match value = regex.Match(cookie);
+        //    string cookieValue = value.Groups[0].Value;
+        //    return cookieValue.Substring(1, cookieValue.Length - 2);
+        //}
 
-        public static void DoLogin()
+        public static bool DoLogin()
         {
             string loginUrl = "http://yc.xmaylt.cc/app/userlogin/loginpost";
             var postData = "{\"mobile\":\"" + LoginName + "\",\"password\":\"" + Password + "\"}";
-            var userJson = HttpAjaxPost(loginUrl, postData);
+            var json = HttpAjaxPost(loginUrl, postData);
+
+            LoginResult missionResult = JsonConvert.DeserializeObject<LoginResult>(json);
+
+            if(missionResult!=null&& missionResult.code == 1)
+            {
+                PHPSESSID = missionResult.PHPSESSID;
+                CurrentUser = missionResult.user;
+
+                Properties.Settings.Default.LoginName = LoginName;
+                Properties.Settings.Default.Password = Password;
+                Properties.Settings.Default.Save();
+
+                //登陆成功
+                loginCookie = new CookieContainer();
+                loginCookie.Add(new Cookie("PHPSESSID", PHPSESSID, "/", "yc.xmaylt.cc"));
+                return true;
+            }
+            else
+            {
+                PHPSESSID = string.Empty;
+                CurrentUser = null;
+                return false;
+            }
         }
     }
 }

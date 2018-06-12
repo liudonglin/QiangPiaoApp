@@ -16,9 +16,28 @@
 
         <Grid Grid.Row="0">
             <GroupBox Header="你的登录信息" Grid.Column="0">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <TextBlock x:Name="UserInfo" TextWrapping = "Wrap"/>
-                </ScrollViewer>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                        <TextBlock Width="80" Height="18" Text="淘宝："/>
+                        <TextBlock x:Name="taobao_txt" Width="110" Height="18"/>
+                        <TextBlock Width="80" Height="18" Text="电话："/>
+                        <TextBlock x:Name="mobile_txt" Width="110" Height="18"/>
+                        <TextBlock Width="80" Height="18" Text="名字："/>
+                        <TextBlock x:Name="name_txt" Width="110" Height="18"/>
+                        <TextBlock Width="80" Height="18" Text="微信："/>
+                        <TextBlock x:Name="weChat_txt" Width="110" Height="18"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                        <TextBlock Width="80" Height="18" Text="UserId："/>
+                        <TextBlock x:Name="userid_txt" Width="110" Height="18"/>
+                        <TextBlock Width="80" Height="18" Text="可提现佣金："/>
+                        <TextBlock x:Name="freeMoney_txt" Width="110" Height="18"/>
+                        <TextBlock Width="80" Height="18" Text="不可提现佣金："/>
+                        <TextBlock x:Name="stockMoney_txt" Width="110" Height="18"/>
+                        <TextBlock Width="80" Height="18" Text="最后一次访问："/>
+                        <TextBlock x:Name="lastReceive_txt" Width="110" Height="18"/>
+                    </StackPanel>
+                </StackPanel>
             </GroupBox>
         </Grid>
 
