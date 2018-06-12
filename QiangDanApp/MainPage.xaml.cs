@@ -77,7 +77,7 @@ namespace QiangDanApp
 
             this.HasTaskTable.ItemsSource = missionResult.missionList;
 
-            if (missionResult.code != 1)
+            if (missionResult.code == 911)//登陆失效
             {
                 HttpUtility.DoLogin();
             }
@@ -92,7 +92,11 @@ namespace QiangDanApp
             var json = HttpUtility.HttpAjaxPost(queryUrl, postData);
 
             TaskResult taskResult = JsonConvert.DeserializeObject<TaskResult>(json);
-            
+
+            if (taskResult.code == 911)//登陆失效
+            {
+                HttpUtility.DoLogin();
+            }
         }
 
     }
