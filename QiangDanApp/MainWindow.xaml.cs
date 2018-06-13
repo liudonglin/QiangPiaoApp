@@ -60,7 +60,7 @@ namespace QiangDanApp
             this.notifyIcon = new NotifyIcon();
             this.notifyIcon.Text = "抢单系统";
             this.notifyIcon.Icon = App_min_1;
-            this.notifyIcon.Visible = false;
+            this.notifyIcon.Visible = true;
 
             this.notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
 
@@ -91,6 +91,8 @@ namespace QiangDanApp
         {
             Show();
             this.WindowState = WindowState.Normal;
+            icoTimer.Stop();
+            this.notifyIcon.Text = "抢单系统";
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -103,9 +105,14 @@ namespace QiangDanApp
             {
                 GoToMainPage();
             }
+        }
 
+        public void NoticeMessage(string msg)
+        {
             //闪烁图标
             icoTimer.Start();
+            this.notifyIcon.Text = msg;
+            ShowBalloonTipText(msg);
         }
 
         public void GoToLoginPage()
@@ -142,7 +149,6 @@ namespace QiangDanApp
             if (lastWindowState == WindowState.Minimized)
             {
                 this.Hide();
-                this.notifyIcon.Visible = true;
                 ShowBalloonTipText("抢单程序后台运行中......");
             }
         }
@@ -159,7 +165,7 @@ namespace QiangDanApp
                 return;
             }
             this.notifyIcon.BalloonTipText = msg;
-            this.notifyIcon.ShowBalloonTip(5000);
+            this.notifyIcon.ShowBalloonTip(3000);
         }
         #endregion
 

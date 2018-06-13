@@ -15,6 +15,19 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <GroupBox Header="软件运行情况" Grid.Column="0">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                        <TextBlock Width="80" Height="18" Text="运行时间："/>
+                        <TextBlock x:Name="runtime_txt" Width="110" Height="18"/>
+                        <TextBlock Width="80" Height="18" Text="查询次数："/>
+                        <TextBlock x:Name="runcount_txt" Width="110" Height="18"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+        
         <Grid Grid.Row="1">
             <GroupBox Header="你的登录信息" Grid.Column="0">
                 <StackPanel>
@@ -48,13 +61,12 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Header="未领取任务" Grid.Column="0">
-                <DataGrid>
+            <GroupBox Header="新领取任务" Grid.Column="0">
+                <DataGrid x:Name="NewTaskTable" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="任务id" Binding="{Binding taskid,Mode=OneWay}" Width="*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="任务编号" Binding="{Binding missionCode,Mode=OneWay}" Width="2*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="店名" Binding="{Binding shopName,Mode=OneWay}" Width="3*"></DataGridTextColumn>
                         <DataGridTextColumn Header="商品价格" Binding="{Binding price,Mode=OneWay}" Width="*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="服务佣金" Binding="{Binding userPay,Mode=OneWay}" Width="*"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>

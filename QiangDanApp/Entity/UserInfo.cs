@@ -25,8 +25,11 @@ namespace QiangDanApp
         public string bank { get; set; }
 
         public string userid { get; set; }
+
         public string lastReceive { get; set; }
+
         public int stockMoney { get; set; }
+
         public int freeMoney { get; set; }
     }
 }

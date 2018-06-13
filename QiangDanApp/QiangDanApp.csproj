@@ -73,6 +73,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entity\AddTaskResult.cs" />
     <Compile Include="Entity\TaskResult.cs" />
     <Compile Include="Entity\UserInfo.cs" />
     <Compile Include="HttpUtility.cs" />

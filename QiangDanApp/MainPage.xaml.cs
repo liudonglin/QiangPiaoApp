@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,24 +23,44 @@ namespace QiangDanApp
     public partial class MainPage : Page
     {
         private MainWindow _window;
+        private DateTime startTime;
+        private int runCount;
+
+        public List<TaskInfo> addTaskList = new List<TaskInfo>();
 
         public MainPage(MainWindow window)
         {
             InitializeComponent();
             this._window = window;
             this.Loaded += MainPage_Loaded;
+            startTime = DateTime.Now;
+
+            runtime_txt.Text = "0 秒";
+            runcount_txt.Text = runCount.ToString();
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             SetUserInfoBox(HttpUtility.CurrentUser);
-
-            QueryWaitHasTask();
+            
             QueryHasTask();
 
             Task.Factory.StartNew(() =>
             {
+                while (true)
+                {
+                    Thread.Sleep(3000);
+                    QueryWaitHasTask();
 
+                    runCount++;
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        TimeSpan ts = DateTime.Now - startTime;
+                        runtime_txt.Text = ((int)ts.TotalSeconds).ToString() + " 秒";
+                        runcount_txt.Text = runCount.ToString();
+                    }));
+                }
             });
         }
 
@@ -75,11 +96,13 @@ namespace QiangDanApp
                 }
             }
 
-            this.HasTaskTable.ItemsSource = missionResult.missionList;
-
             if (missionResult.code == 911)//登陆失效
             {
                 HttpUtility.DoLogin();
+            }
+            else if(missionResult.code == 1)
+            {
+                this.HasTaskTable.ItemsSource = missionResult.missionList;
             }
         }
 
@@ -97,6 +120,39 @@ namespace QiangDanApp
             {
                 HttpUtility.DoLogin();
             }
+            else if(taskResult.code == 1)
+            {
+                if (taskResult.taskList!=null&& taskResult.taskList.Count > 0)
+                {
+                    _window.NoticeMessage("任务已发布,开始自动抢单");
+
+                    for (int i = 0; i < 2 && i < taskResult.taskList.Count;)
+                    {
+                        var _task = taskResult.taskList[i];
+                        var addResult = AddTask(_task.taskid);
+                        if (addResult.code == 1)
+                        {
+                            _task.price = _task.price / 100;
+                            addTaskList.Add(_task);
+                            this.NewTaskTable.ItemsSource = addTaskList;
+                            i++;
+                            _window.NoticeMessage("已获取任务,任务编号" + addResult.missionid);
+                        }
+                    }
+                }
+            }
+        }
+
+        private AddTaskResult AddTask(int taskid)
+        {
+            var url = "http://yc.xmaylt.cc/app/mission/addpost";
+            var postData = "{ \"taskid\":" + taskid + "}";
+
+            var json = HttpUtility.HttpAjaxPost(url, postData);
+
+            AddTaskResult taskResult = JsonConvert.DeserializeObject<AddTaskResult>(json);
+
+            return taskResult;
         }
 
     }
