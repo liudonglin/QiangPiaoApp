@@ -31,5 +31,9 @@ namespace QiangDanApp
         public int stockMoney { get; set; }
 
         public int freeMoney { get; set; }
+
+        public int dayLimit { get; set; }
+
+        public int monthLimit { get; set; }
     }
 }

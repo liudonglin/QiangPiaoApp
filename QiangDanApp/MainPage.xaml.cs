@@ -19,6 +19,7 @@ namespace QiangDanApp
 {
     /// <summary>
     /// MainPage.xaml 的交互逻辑
+    /// http://yc.xmaylt.cc/app/userpage/listtask
     /// </summary>
     public partial class MainPage : Page
     {
@@ -76,6 +77,9 @@ namespace QiangDanApp
             this.freeMoney_txt.Text = (user.freeMoney/100).ToString();
             this.stockMoney_txt.Text = (user.stockMoney/100).ToString();
             this.lastReceive_txt.Text = user.lastReceive;
+
+            this.dayLimit_txt.Text = user.dayLimit.ToString();
+            this.monthLimit_txt.Text = user.monthLimit.ToString();
         }
 
         private void QueryHasTask()
@@ -140,6 +144,10 @@ namespace QiangDanApp
                         }
                     }
                 }
+            }
+            else
+            {
+                _window.NoticeMessage(taskResult.message);
             }
         }
 
