@@ -37,11 +37,11 @@ namespace QiangDanApp
         /// <summary>
         /// 商品价格
         /// </summary>
-        public int price { get; set; }
+        public string price { get; set; }
 
         /// <summary>
         /// 服务佣金
         /// </summary>
-        public int userPay { get; set; }
+        public string userPay { get; set; }
     }
 }

@@ -16,19 +16,19 @@ namespace QiangDanApp
 
     public class TaskInfo
     {
-        public int taskid { get; set; }
+        public string taskid { get; set; }
 
-        public int shopid { get; set; }
+        public string shopid { get; set; }
 
         public string shopName { get; set; }
 
         public string shopCategory { get; set; }
 
-        public int price { get; set; }
+        public string price { get; set; }
 
-        public int amount { get; set; }
+        public string amount { get; set; }
 
-        public int interval { get; set; }
+        public string interval { get; set; }
 
         public string platformName { get; set; }
     }

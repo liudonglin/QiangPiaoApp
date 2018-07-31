@@ -28,12 +28,12 @@ namespace QiangDanApp
 
         public string lastReceive { get; set; }
 
-        public int stockMoney { get; set; }
+        public string stockMoney { get; set; }
 
-        public int freeMoney { get; set; }
+        public string freeMoney { get; set; }
 
-        public int dayLimit { get; set; }
+        public string dayLimit { get; set; }
 
-        public int monthLimit { get; set; }
+        public string monthLimit { get; set; }
     }
 }

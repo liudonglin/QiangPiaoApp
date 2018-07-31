@@ -11,7 +11,7 @@ namespace QiangDanApp
 {
     public class HttpUtility
     {
-        static CookieContainer loginCookie;
+        static CookieContainer loginCookie = new CookieContainer();
 
         public static string LoginName { get; set; }
 
@@ -54,6 +54,24 @@ namespace QiangDanApp
             return retString;
         }
 
+        public static void GetSessid()
+        {
+            string loginPageUrl = "http://yc.xmaylt.cc/app/userlogin/login";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(loginPageUrl);
+            request.Method = "GET";
+            request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36";
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            var cookieStr = response.Headers["Set-Cookie"];
+            if (!string.IsNullOrWhiteSpace(cookieStr))
+            {
+                var cookieValue = cookieStr.Substring(cookieStr.IndexOf("=") + 1, 32);
+                PHPSESSID = cookieValue;
+                loginCookie.Add(new Cookie("PHPSESSID", cookieValue, "/", "yc.xmaylt.cc"));
+            }
+        }
+
         //public static void CookiesParse(string cookieStr)
         //{
         //    var cookieValue = GetCookieValue(cookieStr);
@@ -74,28 +92,22 @@ namespace QiangDanApp
         public static bool DoLogin()
         {
             string loginUrl = "http://yc.xmaylt.cc/app/userlogin/loginpost";
-            var postData = "{\"mobile\":\"" + LoginName + "\",\"password\":\"" + Password + "\"}";
+            var postData = "{\"mobile\":\"" + LoginName + "\",\"password\":\"" + Password + "\",\"openid\":\"\"}";
             var json = HttpAjaxPost(loginUrl, postData);
 
             LoginResult missionResult = JsonConvert.DeserializeObject<LoginResult>(json);
 
             if(missionResult!=null&& missionResult.code == 1)
             {
-                PHPSESSID = missionResult.PHPSESSID;
                 CurrentUser = missionResult.user;
 
                 Properties.Settings.Default.LoginName = LoginName;
                 Properties.Settings.Default.Password = Password;
                 Properties.Settings.Default.Save();
-
-                //登陆成功
-                loginCookie = new CookieContainer();
-                loginCookie.Add(new Cookie("PHPSESSID", PHPSESSID, "/", "yc.xmaylt.cc"));
                 return true;
             }
             else
             {
-                PHPSESSID = string.Empty;
                 CurrentUser = null;
                 return false;
             }

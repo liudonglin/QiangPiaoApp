@@ -25,9 +25,14 @@ namespace QiangDanApp
         {
             InitializeComponent();
             this._window = window;
+            this.Loaded += LoginPage_Loaded;
+        }
 
+        private void LoginPage_Loaded(object sender, RoutedEventArgs e)
+        {
             this.loginName_Txt.Text = Properties.Settings.Default.LoginName;
             this.passwordTxt.Password = Properties.Settings.Default.Password;
+            HttpUtility.GetSessid();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -9,8 +9,8 @@ namespace QiangDanApp
     {
         public int code { get; set; }
 
-        public int needCheck { get; set; }
+        public string needCheck { get; set; }
 
-        public int missionid { get; set; }
+        public string missionid { get; set; }
     }
 }

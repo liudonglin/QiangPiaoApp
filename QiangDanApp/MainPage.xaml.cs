@@ -74,8 +74,8 @@ namespace QiangDanApp
             this.weChat_txt.Text = user.weChat;
 
             this.userid_txt.Text = user.userid;
-            this.freeMoney_txt.Text = (user.freeMoney/100).ToString();
-            this.stockMoney_txt.Text = (user.stockMoney/100).ToString();
+            this.freeMoney_txt.Text = (decimal.Parse(user.freeMoney) / 100).ToString();
+            this.stockMoney_txt.Text = (decimal.Parse(user.stockMoney) / 100).ToString();
             this.lastReceive_txt.Text = user.lastReceive;
 
             this.dayLimit_txt.Text = user.dayLimit.ToString();
@@ -95,8 +95,8 @@ namespace QiangDanApp
             {
                 foreach (var item in missionResult.missionList)
                 {
-                    item.price = item.price / 100;
-                    item.userPay = item.userPay / 100;
+                    item.price = (decimal.Parse(item.price) / 100).ToString();
+                    item.userPay = (decimal.Parse(item.userPay) / 100).ToString();
                 }
             }
 
@@ -136,7 +136,7 @@ namespace QiangDanApp
                         var addResult = AddTask(_task.taskid);
                         if (addResult.code == 1)
                         {
-                            _task.price = _task.price / 100;
+                            _task.price = (decimal.Parse(_task.price) / 100).ToString();
                             addTaskList.Add(_task);
                             this.NewTaskTable.ItemsSource = addTaskList;
                             i++;
@@ -151,7 +151,7 @@ namespace QiangDanApp
             }
         }
 
-        private AddTaskResult AddTask(int taskid)
+        private AddTaskResult AddTask(string taskid)
         {
             var url = "http://yc.xmaylt.cc/app/mission/addpost";
             var postData = "{ \"taskid\":" + taskid + "}";
